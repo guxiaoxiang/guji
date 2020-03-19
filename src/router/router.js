@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import login from '../components/login'
+import register from '../components/register'
+import homepage from '../components/homepage'
 
 Vue.use(VueRouter)
 
@@ -10,6 +12,12 @@ const routes = [{
 }, {
   path: '/',
   redirect: '/login'
+}, {
+  path: '/register',
+  component: register
+}, {
+  path: '/homepage',
+  component: homepage
 }]
 
 const router = new VueRouter({

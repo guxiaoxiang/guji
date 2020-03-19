@@ -100,5 +100,6 @@ export default {
         width: 50px;
         font-size: 10px;
         color: royalblue;
+        cursor: pointer;
     }
 </style>
