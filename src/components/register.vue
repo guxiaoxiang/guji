@@ -24,7 +24,7 @@
             </div>
             <div class="register_btn">
                 <van-button type="info" round="true" class="register_btn_submit">注册</van-button>
-                <van-button type="danger" round="true" class="register_btn_cancel">取消</van-button>
+                <van-button type="danger" round="true" class="register_btn_cancel" @click="back">取消</van-button>
             </div>
         </div>
     </div>
@@ -32,7 +32,11 @@
 
 <script>
 export default {
-
+  methods: {
+    back: function () {
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 

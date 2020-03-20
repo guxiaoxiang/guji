@@ -4,7 +4,7 @@
             <img src="../assets/logo.png">
         </div>
         <div class="homepage_item">
-            <div class="homepage_item_record">
+            <div class="homepage_item_record" @click="toRecord">
                 <div class="img_record">
                     <img src="../assets/record.png">
                 </div>
@@ -31,7 +31,11 @@
 
 <script>
 export default {
-
+  methods: {
+    toRecord: function () {
+      this.$router.push('/homepage/record')
+    }
+  }
 }
 </script>
 

@@ -9,7 +9,7 @@
             </div>
             <div class="login_input_name">
                 <van-cell-group>
-                    <van-field placeholder="   请输入用户名" left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"/>
+                    <van-field placeholder="   请输入用户名"  left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"/>
                 </van-cell-group>
             </div>
             <div class="login_input_pwd">
@@ -20,14 +20,19 @@
         </div>
         <div class="login_btn">
             <van-button type="info" round="true" class="login_btn_submit">登录</van-button>
-            <van-button type="danger" round="true" class="login_btn_cancel">取消</van-button>
-            <span class="login_register">立即注册</span>
+            <van-button type="danger" round="true" class="login_btn_cancel" @click="clear" clearable="true">重置</van-button>
+            <span class="login_register" @click="toLogin">立即注册</span>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    toLogin: function () {
+      this.$router.push('/register')
+    }
+  }
 }
 </script>
 
@@ -82,24 +87,23 @@ export default {
         padding: 0 10px;
     }
     .login_btn_submit {
-        position: absolute;
-        top: 450px;
-        left: 50%;
-        transform: translateX(-120%);
+        margin: 0 20px;
     }
     .login_btn_cancel {
-        position: absolute;
-        top: 450px;
-        left: 50%;
-        transform: translateX(20%);
+        margin: 0 20px;
     }
-    .login_btn .login_register {
+    .login_btn {
         position: absolute;
-        top: 465px;
-        left: 820px;
-        width: 50px;
-        font-size: 10px;
+        top: 440px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px;
+        height: 50px;
+    }
+    .login_register {
+        float: right;
         color: royalblue;
+        line-height: 50px;
         cursor: pointer;
     }
 </style>
