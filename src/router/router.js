@@ -8,28 +8,35 @@ import test from '../components/test'
 
 Vue.use(VueRouter)
 
-const routes = [{
-  path: '/test',
-  component: test
-}, {
-  path: '/login',
-  component: login
-}, {
-  path: '/',
-  redirect: '/login'
-}, {
-  path: '/register',
-  component: register
-}, {
-  path: '/homepage',
-  component: homepage
-}, {
-  path: '/homepage/record',
-  component: record
-}]
+const routes = [
+  {
+    path: '/test',
+    component: test,
+  },
+  {
+    path: '/login',
+    component: login,
+  },
+  {
+    path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/register',
+    component: register,
+  },
+  {
+    path: '/homepage',
+    component: homepage,
+  },
+  {
+    path: '/homepage/record',
+    component: record,
+  },
+]
 
 const router = new VueRouter({
-  routes
+  routes,
 })
 
 export default router
