@@ -1,29 +1,7 @@
 <template>
   <div>
-    <!-- <van-field
-  readonly
-  clickable
-  label="城市"
-  :value="value"
-  placeholder="选择城市"
-  @click="showPicker = true"
-/> -->
-    <van-button
-      type="default"
-      is-link
-      @click="isShowPicker"
-      slot="button"
-      size="small"
-      readonly
-      clickable
-      :value="value"
-      placeholder="选择城市"
-      >选择类别</van-button
-    >
-
-    <van-popup v-model="showPicker" position="bottom">
-      <van-picker show-toolbar :columns="columns" @cancel="noShowPicker" @confirm="onConfirm" />
-    </van-popup>
+    <van-cell title="选择日期区间" :value="date" @click="show = true" />
+    <van-calendar v-model="show" type="range" @confirm="onConfirm" />
   </div>
 </template>
 
@@ -31,21 +9,18 @@
 export default {
   data: function() {
     return {
-      value: '',
-      showPicker: false,
-      columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+      date: '',
+      show: false,
     }
   },
   methods: {
-    onConfirm(value) {
-      this.value = value
-      this.showPicker = false
+    formatDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`
     },
-    isShowPicker: function() {
-      this.showPicker = true
-    },
-    noShowPicker: function() {
-      this.showPicker = false
+    onConfirm(date) {
+      const [start, end] = date
+      this.show = false
+      this.date = `${this.formatDate(start)} - ${this.formatDate(end)}`
     },
   },
 }

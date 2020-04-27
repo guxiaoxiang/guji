@@ -4,39 +4,52 @@
       <img src="../assets/logo.png" />
     </div>
     <div class="homepage_item">
-      <div class="homepage_item_record" @click="toRecord">
-        <div class="img_record">
-          <img src="../assets/record.png" />
-        </div>
-        <span>记账</span>
-      </div>
-      <div class="homepage_item_view">
-        <div class="img_view">
-          <img src="../assets/view.png" />
-        </div>
-        <span>查看流水</span>
-      </div>
-      <div class="homepage_item_statistic">
-        <div class="img_statistic">
-          <img src="../assets/statistic.png" />
-        </div>
-        <span>收支分析</span>
-      </div>
+      <van-cell title="记账" size="large" is-link to="/homepage/record">
+        <!-- 使用 right-icon 插槽来自定义右侧图标 -->
+        <template #icon>
+          <van-icon name="gold-coin-o" size="25px"/>
+        </template>
+      </van-cell>
+      <van-cell title="查看流水" size="large" is-link to="/homepage/view">
+        <!-- 使用 right-icon 插槽来自定义右侧图标 -->
+        <template #icon>
+          <van-icon name="bill-o" size="25px"/>
+        </template>
+      </van-cell>
+      <van-cell title="收支分析" size="large" is-link to="/homepage/record">
+        <!-- 使用 right-icon 插槽来自定义右侧图标 -->
+        <template #icon>
+          <van-icon name="chart-trending-o" size="25px"/>
+        </template>
+      </van-cell>
     </div>
     <div class="homepage_back">
-      <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" class="back"
-        >退出登录</van-button
-      >
+      <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" class="back" @click="loginout">
+        退出登录
+      </van-button>
     </div>
   </div>
 </template>
 
 <script>
+import { Toast } from 'vant'
 export default {
+  // data(){
+  //   return {
+  //     title
+  //   }
+  // }
   methods: {
-    toRecord: function() {
-      this.$router.push('/homepage/record')
-    },
+    loginout(){
+      var that = this
+      setTimeout(function(){
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        })
+        that.$router.push('/login')
+      },2000)
+    }
   },
 }
 </script>
@@ -60,84 +73,24 @@ export default {
 }
 .homepage_item {
   position: absolute;
-  top: 160px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 300px;
-  /* background-color: pink; */
-}
-.homepage_item_record {
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 250px;
-  height: 250px;
-  /* background-color: purple; */
-  border-radius: 30px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 5px 0px;
-  transition: all, 0.2s;
-}
-.homepage_item_view {
-  position: absolute;
-  top: 30px;
-  left: 320px;
-  width: 250px;
-  height: 250px;
-  /* background-color: purple; */
-  border-radius: 30px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 5px 0px;
-  transition: all, 0.2s;
-}
-.homepage_item_statistic {
-  position: absolute;
-  top: 30px;
-  left: 620px;
-  width: 250px;
-  height: 250px;
-  /* background-color: purple; */
-  border-radius: 30px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 5px 0px;
-  transition: all, 0.3s;
-}
-.homepage_item_record:hover,
-.homepage_item_view:hover,
-.homepage_item_statistic:hover {
-  transform: scale(1.1);
-}
-.homepage_item_record:active,
-.homepage_item_view:active,
-.homepage_item_statistic:active {
-  background-color: royalblue;
-}
-.img_record,
-.img_view,
-.img_statistic {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 150px;
-  /* background-color: royalblue; */
-}
-.img_record img,
-.img_view img,
-.img_statistic img {
-  width: 100%;
-  height: 100%;
-}
-.homepage_item span {
-  position: absolute;
   top: 200px;
   left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  /* background-color: pink; */
+}
+.homepage_item span {
+  /* position: absolute;
+  top: 200px;
+  left: 50%; */
   transform: translateX(-50%);
   text-align: center;
   font-size: 20px;
 }
 .homepage_back {
   position: absolute;
-  top: 500px;
+  top: 400px;
   left: 50%;
   transform: translateX(-50%);
 }

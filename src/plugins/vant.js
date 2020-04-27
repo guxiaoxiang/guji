@@ -12,6 +12,8 @@ import {
   Overlay,
   Calendar,
   Picker,
+  Form,
+  Toast,
 } from 'vant'
 
 Vue.use(CellGroup)
@@ -26,3 +28,5 @@ Vue.use(Cell)
 Vue.use(Overlay)
 Vue.use(Calendar)
 Vue.use(Picker)
+Vue.use(Form)
+Vue.use(Toast)

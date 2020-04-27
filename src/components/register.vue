@@ -8,26 +8,38 @@
         <span>用户注册</span>
       </div>
       <div class="register_input_name">
-        <van-cell-group>
+        <van-cell-group :model="registerForm">
           <van-field
             placeholder="   请输入用户名"
             left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"
+            name="username"
+            v-model="registerForm.username"
           />
         </van-cell-group>
       </div>
       <div class="register_input_email">
         <van-cell-group>
-          <van-field placeholder="   请输入邮箱" left-icon="envelop-o" type="email" />
+          <van-field placeholder="   请输入邮箱" 
+          left-icon="envelop-o" 
+          type="email" 
+          name="email" 
+          v-model="registerForm.email"
+          />
         </van-cell-group>
       </div>
       <div class="register_input_pwd">
         <van-cell-group>
-          <van-field placeholder="   请输入密码" left-icon="bag-o" type="password" />
+          <van-field placeholder="   请输入密码" 
+          left-icon="bag-o" 
+          type="password" 
+          name="password"
+          v-model="registerForm.password"
+          />
         </van-cell-group>
       </div>
       <div class="register_btn">
-        <van-button type="info" round="true" class="register_btn_submit">注册</van-button>
-        <van-button type="danger" round="true" class="register_btn_cancel" @click="back"
+        <van-button type="info" round class="register_btn_submit" @click="register">注册</van-button>
+        <van-button type="danger" round class="register_btn_cancel" @click="back"
           >取消</van-button
         >
       </div>
@@ -36,11 +48,46 @@
 </template>
 
 <script>
+import { Register } from '../api/user.js'
+import { Toast } from 'vant'
+import { Notify } from 'vant'
 export default {
+  data(){
+    return {
+      registerForm:{
+        username:'',
+        email:'',
+        password:''
+      }
+    }
+  },
   methods: {
     back: function() {
       this.$router.go(-1)
     },
+    register(){
+      var obj = {}
+      obj.username = this.registerForm.username
+      obj.email = this.registerForm.email
+      obj.password = this.registerForm.password
+      console.log(obj)
+
+      Register(obj)
+      .then(res=>{
+        if(res.code == 200){
+          Toast.success(res.message)
+          var that = this
+          setTimeout(function(){
+            that.$router.go(-1)
+          },2000)
+        }else{
+          Notify({ type: 'warning', message: res.message })
+        }
+      })
+      .catch(e=>{
+        console.log(e)
+      })
+    }
   },
 }
 </script>
@@ -67,10 +114,8 @@ export default {
   top: 180px;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
-  height: 400px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 5px 0px;
-  border-radius: 30px;
+  width: 100%;
+  height: 100%;
 }
 .register_input_title span {
   position: absolute;

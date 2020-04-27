@@ -5,43 +5,123 @@
     </div>
     <div class="login_input">
       <div class="login_input_title">
-        <span>用户登录</span>
+        <span id="test">用户登录</span>
       </div>
-      <div class="login_input_name">
-        <van-cell-group>
+      <div class="login_input_info">
+        <van-form
+          :model="loginForm"
+          ref="loginFormRef"
+          validate-trigger="onBlur"
+          @submit="loginHandler"
+          id="loginForm"
+        >
           <van-field
-            placeholder="   请输入用户名"
-            left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"
+            v-model="loginForm.username"
+            name="username"
+            label="用户名"
+            placeholder="用户名"
+            :rules="ruleForm.username"
+            class="uname"
           />
-        </van-cell-group>
-      </div>
-      <div class="login_input_pwd">
-        <van-cell-group>
-          <van-field placeholder="   请输入密码" left-icon="bag-o" type="password" />
-        </van-cell-group>
+          <van-field
+            v-model="loginForm.password"
+            type="password"
+            name="password"
+            label="密码"
+            placeholder="密码"
+            :rules="ruleForm.password"
+            class="pwd"
+          />
+          <div class="login_btn">
+            <van-button round type="info" native-type="submit" class="login_btn_submit" @click="userPass">
+              登录
+            </van-button>
+            <van-button
+              type="danger"
+              round
+              class="login_btn_cancel"
+              clearable="true"
+              @click="resetForm"
+              >重置</van-button
+            >
+          </div>
+        </van-form>
       </div>
     </div>
-    <div class="login_btn">
-      <van-button type="info" round="true" class="login_btn_submit">登录</van-button>
-      <van-button
-        type="danger"
-        round="true"
-        class="login_btn_cancel"
-        @click="clear"
-        clearable="true"
-        >重置</van-button
-      >
-      <span class="login_register" @click="toLogin">立即注册</span>
+    <div class="register_btn">
+      <span @click="toRegister">立即注册</span>
     </div>
   </div>
 </template>
 
 <script>
+import {eventBus} from '../util/event-bus'
+import { Login } from '../api/user.js'
+import { Toast } from 'vant'
 export default {
+  data() {
+    return {
+      loginForm: {
+        username: '',
+        password: '',
+      },
+      ruleForm: {
+        username: [{ validator: this.validator_uname, message: '用户名格式不合法' }],
+        password: [{ validator: this.validator_pwd, message: '密码格式不合法' }],
+      },
+      username:''
+    }
+  },
   methods: {
-    toLogin: function() {
+    validator_uname: function(val) {
+      //字母开头，允许3-16字节，允许字母数字下划线
+      return /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/.test(val)
+    },
+    validator_pwd: function(val) {
+      //以字母开头，长度在6~18之间，只能包含字母、数字和下划线
+      return /^[a-zA-Z0-9]\w{5,17}$/.test(val)
+    },
+    resetForm: function() {
+      ;(this.loginForm.username = ''),
+        (this.loginForm.password = ''),
+        this.$refs.loginFormRef.resetValidation()
+    },
+    toRegister: function() {
       this.$router.push('/register')
     },
+    login: function() {
+      this.$refs.loginFormRef.validate(valid => {
+        if (!valid) {
+          return valid
+        } else {
+          this.loginHandler()
+        }
+      })
+    },
+    loginHandler() {
+      var obj = {}
+      obj.username = this.loginForm.username
+      obj.password = this.loginForm.password
+      console.log(obj)
+
+      Login(obj)
+        .then(res => {
+          if (res.code == 200) {
+            // console.log(res.data)
+            this.username = res.data
+            Toast.success(res.message)
+            this.$router.push('/homepage')
+          } else {
+            Toast.fail(res.message)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    userPass(){
+      eventBus.$emit('userNamePass',this.username)
+    }
   },
 }
 </script>
@@ -55,20 +135,25 @@ export default {
   position: absolute;
   top: 20px;
   left: 50%;
-  width: 387px;
-  height: 180px;
   transform: translateX(-50%);
+  width: 300px;
+  height: 130px;
+}
+.login_logo img {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s;
+}
+.login_logo img:hover {
+  transform: scale(1.1);
 }
 .login_input {
   position: absolute;
-  top: 260px;
+  top: 190px;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
-  height: 250px;
-  /* background-color: pink; */
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 5px 0px;
-  border-radius: 30px;
+  width: 100%;
+  height: 100%;
 }
 .login_input_title span {
   position: absolute;
@@ -104,16 +189,17 @@ export default {
 }
 .login_btn {
   position: absolute;
-  top: 440px;
+  top: 145px;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
   height: 50px;
 }
-.login_register {
-  float: right;
-  color: royalblue;
-  line-height: 50px;
-  cursor: pointer;
+.register_btn {
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
 }
 </style>

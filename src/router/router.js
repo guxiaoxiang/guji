@@ -5,6 +5,7 @@ import register from '../components/register'
 import homepage from '../components/homepage'
 import record from '../components/record'
 import test from '../components/test'
+import view from '../components/view'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,10 @@ const routes = [
   {
     path: '/homepage/record',
     component: record,
+  },
+  {
+    path: '/homepage/view',
+    component: view,
   },
 ]
 
