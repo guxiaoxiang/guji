@@ -1,4 +1,4 @@
-# guji
+# Guji
 
 ## Project setup
 ```
