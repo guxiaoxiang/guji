@@ -9,6 +9,8 @@ import view from '../components/view'
 
 Vue.use(VueRouter)
 
+const whiteList = ['/login', '/register']
+
 const routes = [
   {
     path: '/test',
@@ -42,6 +44,19 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (whiteList.indexOf(to.path) != -1) {
+    next()
+  }
+  let currentUser = Vue.ls.get('user')
+
+  if (currentUser) {
+    next()
+  } else {
+    next({ path: '/login' })
+  }
 })
 
 export default router

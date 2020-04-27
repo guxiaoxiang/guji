@@ -11,6 +11,12 @@ export default {
   components: {
     // login
   },
+  mounted() {
+    let currentUser = this.$ls.get('user') == null ? null : this.$ls.get('user')
+    if (currentUser) {
+      this.$store.commit('setUser', currentUser)
+    }
+  },
 }
 </script>
 <style>

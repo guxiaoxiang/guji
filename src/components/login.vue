@@ -33,7 +33,13 @@
             class="pwd"
           />
           <div class="login_btn">
-            <van-button round type="info" native-type="submit" class="login_btn_submit" @click="userPass">
+            <van-button
+              round
+              type="info"
+              native-type="submit"
+              class="login_btn_submit"
+              @click="userPass"
+            >
               登录
             </van-button>
             <van-button
@@ -55,7 +61,7 @@
 </template>
 
 <script>
-import {eventBus} from '../util/event-bus'
+import { eventBus } from '../util/event-bus'
 import { Login } from '../api/user.js'
 import { Toast } from 'vant'
 export default {
@@ -69,7 +75,7 @@ export default {
         username: [{ validator: this.validator_uname, message: '用户名格式不合法' }],
         password: [{ validator: this.validator_pwd, message: '密码格式不合法' }],
       },
-      username:''
+      username: '',
     }
   },
   methods: {
@@ -108,8 +114,8 @@ export default {
         .then(res => {
           if (res.code == 200) {
             // console.log(res.data)
-            this.username = res.data
             Toast.success(res.message)
+            this.$store.commit('setUser', res.data)
             this.$router.push('/homepage')
           } else {
             Toast.fail(res.message)
@@ -119,9 +125,9 @@ export default {
           console.log(e)
         })
     },
-    userPass(){
-      eventBus.$emit('userNamePass',this.username)
-    }
+    userPass() {
+      eventBus.$emit('userNamePass', this.username)
+    },
   },
 }
 </script>

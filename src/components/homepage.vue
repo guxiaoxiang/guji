@@ -7,24 +7,28 @@
       <van-cell title="记账" size="large" is-link to="/homepage/record">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
         <template #icon>
-          <van-icon name="gold-coin-o" size="25px"/>
+          <van-icon name="gold-coin-o" size="25px" />
         </template>
       </van-cell>
       <van-cell title="查看流水" size="large" is-link to="/homepage/view">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
         <template #icon>
-          <van-icon name="bill-o" size="25px"/>
+          <van-icon name="bill-o" size="25px" />
         </template>
       </van-cell>
       <van-cell title="收支分析" size="large" is-link to="/homepage/record">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
         <template #icon>
-          <van-icon name="chart-trending-o" size="25px"/>
+          <van-icon name="chart-trending-o" size="25px" />
         </template>
       </van-cell>
     </div>
     <div class="homepage_back">
-      <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" class="back" @click="loginout">
+      <van-button
+        color="linear-gradient(to right, #4bb0ff, #6149f6)"
+        class="back"
+        @click="loginout"
+      >
         退出登录
       </van-button>
     </div>
@@ -39,17 +43,23 @@ export default {
   //     title
   //   }
   // }
+  mounted() {
+    setTimeout(() => {
+      Toast.success('欢迎' + this.$store.getters.user.username)
+    }, 1000)
+  },
   methods: {
-    loginout(){
+    loginout() {
       var that = this
-      setTimeout(function(){
+      setTimeout(function() {
         Toast.loading({
           message: '加载中...',
           forbidClick: true,
         })
+        that.$store.commit('clearUser')
         that.$router.push('/login')
-      },2000)
-    }
+      }, 2000)
+    },
   },
 }
 </script>
