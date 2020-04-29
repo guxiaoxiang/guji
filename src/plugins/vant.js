@@ -14,6 +14,12 @@ import {
   Picker,
   Form,
   Toast,
+  NumberKeyboard,
+  List,
+  Card,
+  Tag,
+  Empty,
+  SwipeCell,
 } from 'vant'
 
 Vue.use(CellGroup)
@@ -30,3 +36,9 @@ Vue.use(Calendar)
 Vue.use(Picker)
 Vue.use(Form)
 Vue.use(Toast)
+Vue.use(NumberKeyboard)
+Vue.use(List)
+Vue.use(Card)
+Vue.use(Tag)
+Vue.use(Empty)
+Vue.use(SwipeCell)

@@ -24,3 +24,11 @@ export function Record(data) {
     data,
   })
 }
+
+export function View(data) {
+  return axios({
+    url: config.address + '/homepage/view',
+    method: 'post',
+    data,
+  })
+}

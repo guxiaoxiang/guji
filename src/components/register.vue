@@ -10,6 +10,7 @@
       <div class="register_input_name">
         <van-cell-group :model="registerForm">
           <van-field
+            required
             placeholder="   请输入用户名"
             left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"
             name="username"
@@ -19,7 +20,9 @@
       </div>
       <div class="register_input_email">
         <van-cell-group>
-          <van-field placeholder="   请输入邮箱" 
+          <van-field 
+          required
+          placeholder="   请输入邮箱" 
           left-icon="envelop-o" 
           type="email" 
           name="email" 
@@ -29,7 +32,9 @@
       </div>
       <div class="register_input_pwd">
         <van-cell-group>
-          <van-field placeholder="   请输入密码" 
+          <van-field 
+          required
+          placeholder="   请输入密码" 
           left-icon="bag-o" 
           type="password" 
           name="password"

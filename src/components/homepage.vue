@@ -36,29 +36,31 @@
 </template>
 
 <script>
+import { Notify } from 'vant'
 import { Toast } from 'vant'
 export default {
   // data(){
   //   return {
-  //     title
+  //     username:''
   //   }
   // }
   mounted() {
     setTimeout(() => {
-      Toast.success('欢迎' + this.$store.getters.user.username)
+      // Toast.success('欢迎' + this.$store.getters.user.username)
+      Notify({ type: 'success', message: '欢迎' + this.$store.getters.user.username })
     }, 1000)
   },
   methods: {
     loginout() {
+      Toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+      })
+      this.$store.commit('clearUser')
       var that = this
-      setTimeout(function() {
-        Toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        })
-        that.$store.commit('clearUser')
+      setTimeout(function(){
         that.$router.push('/login')
-      }, 2000)
+      },2000)
     },
   },
 }

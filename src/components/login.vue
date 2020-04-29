@@ -38,7 +38,6 @@
               type="info"
               native-type="submit"
               class="login_btn_submit"
-              @click="userPass"
             >
               登录
             </van-button>
@@ -61,9 +60,9 @@
 </template>
 
 <script>
-import { eventBus } from '../util/event-bus'
 import { Login } from '../api/user.js'
 import { Toast } from 'vant'
+import { Notify } from 'vant'
 export default {
   data() {
     return {
@@ -88,9 +87,8 @@ export default {
       return /^[a-zA-Z0-9]\w{5,17}$/.test(val)
     },
     resetForm: function() {
-      ;(this.loginForm.username = ''),
-        (this.loginForm.password = ''),
-        this.$refs.loginFormRef.resetValidation()
+      this.loginForm.username = '',
+      this.loginForm.password = ''
     },
     toRegister: function() {
       this.$router.push('/register')
@@ -116,17 +114,16 @@ export default {
             // console.log(res.data)
             Toast.success(res.message)
             this.$store.commit('setUser', res.data)
+            console.log(res.data)
+            console.log(this.$store.getters.user.email)
             this.$router.push('/homepage')
           } else {
-            Toast.fail(res.message)
+            Notify({ type: 'warning', message: res.message })
           }
         })
         .catch(e => {
           console.log(e)
         })
-    },
-    userPass() {
-      eventBus.$emit('userNamePass', this.username)
     },
   },
 }

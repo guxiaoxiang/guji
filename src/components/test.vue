@@ -1,26 +1,46 @@
 <template>
   <div>
-    <van-cell title="选择日期区间" :value="date" @click="show = true" />
-    <van-calendar v-model="show" type="range" @confirm="onConfirm" />
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
+      <van-card
+        num="2"
+        price="2.00"
+        desc="描述信息"
+        title="商品标题"
+        thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
+        v-for="item in list"
+        :key="item"
+      />
+    </van-list>
   </div>
 </template>
 
 <script>
 export default {
-  data: function() {
+  data() {
     return {
-      date: '',
-      show: false,
+      list: [],
+      loading: false,
+      finished: false,
     }
   },
   methods: {
-    formatDate(date) {
-      return `${date.getMonth() + 1}/${date.getDate()}`
-    },
-    onConfirm(date) {
-      const [start, end] = date
-      this.show = false
-      this.date = `${this.formatDate(start)} - ${this.formatDate(end)}`
+    onLoad() {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1)
+        }
+
+        // 加载状态结束
+        this.loading = false
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true
+        }
+      }, 1000)
     },
   },
 }

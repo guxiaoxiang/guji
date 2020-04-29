@@ -5,19 +5,24 @@
     </div>
     <div class="record_input">
       <div class="record_input_title">
-        <span>用户，您好</span>
+        <span>Hello,{{ this.$store.getters.user.username }}</span>
       </div>
       <div class="record_input_tab">
         <van-tabs animated @click="onChange">
           <van-tab title="收入" :model="incomeForm">
             <div class="record_input_money">
               <van-cell-group>
-                <van-field placeholder="  请输入消费金额" left-icon="gold-coin-o" name="money" v-model="incomeForm.money"/>
+                <van-field
+                  placeholder="  请输入消费金额"
+                  left-icon="gold-coin-o"
+                  name="money"
+                  v-model="incomeForm.money"
+                />
               </van-cell-group>
             </div>
             <div class="record_input_type">
               <van-cell-group>
-                <van-field :placeholder="incomeValue" left-icon="more-o" v-model="incomeForm.type">
+                <van-field :placeholder="incomeValue" left-icon="more-o" v-model="incomeForm.type" readonly>
                   <van-button
                     type="default"
                     is-link
@@ -25,15 +30,28 @@
                     slot="button"
                     size="small"
                     name="type"
-                    >选择类别</van-button>
+                    >选择类别</van-button
+                  >
                 </van-field>
               </van-cell-group>
             </div>
             <div class="record_input_date">
               <van-cell-group>
-                <van-field :placeholder="incomeDate" left-icon="calender-o" v-model="incomeForm.date">
-                  <van-button type="default" is-link @click="showPopup" slot="button" size="small"
-                   name="date">选择日期</van-button>
+                <van-field
+                  readonly
+                  :placeholder="incomeDate"
+                  left-icon="calender-o"
+                  v-model="incomeForm.date"
+                >
+                  <van-button
+                    type="default"
+                    is-link
+                    @click="showPopup"
+                    slot="button"
+                    size="small"
+                    name="date"
+                    >选择日期</van-button
+                  >
                 </van-field>
               </van-cell-group>
             </div>
@@ -48,19 +66,25 @@
                   name="note"
                   show-word-limit
                   maxlength="10"
-                  v-model="incomeForm.note"/>
+                  v-model="incomeForm.note"
+                />
               </van-cell-group>
             </div>
           </van-tab>
           <van-tab title="支出" :model="spendForm">
             <div class="record_input_money">
               <van-cell-group>
-                <van-field placeholder="  请输入消费金额" left-icon="gold-coin-o" name="money" v-model="spendForm.money"/>
+                <van-field
+                  placeholder="  请输入消费金额"
+                  left-icon="gold-coin-o"
+                  name="money"
+                  v-model="spendForm.money"
+                />
               </van-cell-group>
             </div>
             <div class="record_input_type">
               <van-cell-group>
-                <van-field :placeholder="spendValue" left-icon="more-o" v-model="spendForm.type">
+                <van-field :placeholder="spendValue" left-icon="more-o" v-model="spendForm.type" readonly>
                   <van-button
                     type="default"
                     is-link
@@ -68,15 +92,24 @@
                     slot="button"
                     size="small"
                     name="type"
-                    >选择类别</van-button>
+                    >选择类别</van-button
+                  >
                 </van-field>
               </van-cell-group>
             </div>
             <div class="record_input_date">
               <van-cell-group>
-                <van-field :placeholder="spendDate" left-icon="calender-o" v-model="spendForm.date">
-                  <van-button type="default" is-link @click="showPopup" slot="button" size="small"
-                    name="date" >选择日期</van-button>
+                    
+                <van-field :placeholder="spendDate" left-icon="calender-o" v-model="spendForm.date" readonly>
+                  <van-button
+                    type="default"
+                    is-link
+                    @click="showPopup"
+                    slot="button"
+                    size="small"
+                    name="date"
+                    >选择日期</van-button
+                  >
                 </van-field>
               </van-cell-group>
             </div>
@@ -91,7 +124,8 @@
                   placeholder="  请输入说明"
                   left-icon="description"
                   name="note"
-                  v-model="spendForm.note"/>
+                  v-model="spendForm.note"
+                />
               </van-cell-group>
             </div>
           </van-tab>
@@ -111,23 +145,24 @@
       <van-popup v-model="showPicker" position="bottom">
         <van-picker
           show-toolbar
-          :columns="outColumns"
+          :columns="selectColumns"
           @cancel="noShowPicker"
-          @confirm="isConfirm"/>
+          @confirm="isConfirm"
+        />
       </van-popup>
     </div>
   </div>
 </template>
 
 <script>
-import {eventBus} from '../util/event-bus'
-import {Record} from '../api/user'
+import { Record } from '../api/user'
 import { Notify } from 'vant'
 import { Toast } from 'vant'
 export default {
   data: function() {
     return {
-      state:'income',
+      value: '',
+      state: 'income',
       active: 0,
       color: 'blue',
       border: false,
@@ -142,59 +177,63 @@ export default {
       spendValue: '  请选择类别',
       incomeValue: '  请选择类别',
       showPicker: false,
-      outColumns: ['交通', '医疗', '日常', '服饰', '娱乐', '其他'],
-      inColumns: ['交通', '医疗', '日常', '服饰', '娱乐', '其他'],
-      incomeForm:{
-        money:'',
-        type:'',
-        date:'',
-        note:''
+      isColumns: {
+        outColumn: ['交通', '医疗', '日常', '服饰', '娱乐', '其他'],
+        inColumn: ['工资', '奖金', '津贴', '投资收益', '其他'],
       },
-      spendForm:{
-        money:'',
-        type:'',
-        date:'',
-        note:''
+      incomeForm: {
+        money: '',
+        type: '',
+        date: '',
+        note: '',
+      },
+      spendForm: {
+        money: '',
+        type: '',
+        date: '',
+        note: '',
       },
     }
   },
+  computed: {
+    selectColumns() {
+      return this.state == 'income' ? this.isColumns.inColumn : this.isColumns.outColumn
+    },
+  },
   methods: {
-    onChange(index,title) {
+    onChange(index, title) {
       // console.log(title)
-      if(title == '支出'){
+      if (title == '支出') {
         title = 'spend'
-      }else {
+      } else {
         title = 'income'
       }
       this.state = title
-      console.log(this.state)
     },
     back: function() {
-      this.$router.go(-1)
+      this.$router.push('/homepage')
     },
     showPopup: function() {
       this.show = true
     },
     onClose: function() {
-      console.log('sss')
       this.show = false
     },
     formatDate(date) {
-      console.log(date.getYear())
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
     },
     onConfirm(date) {
-      if(this.state == 'income'){
+      if (this.state == 'income') {
         this.incomeForm.date = this.formatDate(date)
-      }else{
+      } else {
         this.spendForm.date = this.formatDate(date)
       }
       this.show = false
     },
     isConfirm(value) {
-      if(this.state == 'income'){
+      if (this.state == 'income') {
         this.incomeForm.type = value
-      }else{
+      } else {
         this.spendForm.type = value
       }
       // this.value = value
@@ -206,50 +245,41 @@ export default {
     noShowPicker: function() {
       this.showPicker = false
     },
-    submitForm(){
-      if(this.state == 'income'){
+    submitForm() {
+      if (this.state == 'income') {
         var obj = {}
         obj.state = this.state
         obj.money = this.incomeForm.money
         obj.type = this.incomeForm.type
         obj.date = this.incomeForm.date
         obj.note = this.incomeForm.note
-
-        Record(obj)
-        .then(res=>{
-          if(res.code == 200){
+        obj.email = this.$store.getters.user.email
+        console.log(obj.date)
+        Record(obj).then(res => {
+          if (res.code == 200) {
             Toast.success(res.message)
-          }else{
+          } else {
             Notify({ type: 'warning', message: res.message })
           }
         })
-      }else{
+      } else {
         var obj1 = {}
         obj1.state = this.state
         obj1.money = this.spendForm.money
         obj1.type = this.spendForm.type
         obj1.date = this.spendForm.date
         obj1.note = this.spendForm.note
-
-        Record(obj1)
-        .then(res=>{
-          if(res.code == 200){
+        obj1.email = this.$store.getters.user.email
+        Record(obj1).then(res => {
+          if (res.code == 200) {
             Toast.success(res.message)
-          }else{
+          } else {
             Notify({ type: 'warning', message: res.message })
           }
         })
       }
-    },
-    getUserName(){
-      eventBus.$on('userNamePass',function(val){
-        console.log(val)
-      })
     }
   },
-  mounted:function(){
-    this.getUserName()
-  }
 }
 </script>
 
