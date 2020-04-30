@@ -56,8 +56,7 @@ router.beforeEach((to, from, next) => {
   if (currentUser || to.path == '/register') {
     next()
   } else {
-    Notify({ type: 'warning', message: '请先登录' }),
-    next({ path: '/login' })
+    Notify({ type: 'warning', message: '请先登录' }), next({ path: '/login' })
   }
 })
 

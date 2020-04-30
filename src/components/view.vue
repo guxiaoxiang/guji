@@ -32,7 +32,13 @@
               </template>
             </van-card>
             <template #right>
-              <van-button square text="删除" type="danger" class="delete-button" />
+              <van-button
+                square
+                text="删除"
+                type="danger"
+                @click="deleteItem(item._id)"
+                class="delete-button"
+              />
             </template>
           </van-swipe-cell>
         </van-list>
@@ -67,6 +73,9 @@ export default {
     },
   },
   methods: {
+    deleteItem(id) {
+      console.log(id)
+    },
     onLoad() {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
@@ -141,6 +150,6 @@ export default {
   text-align: left;
 }
 .delete-button {
-  height: 100%
+  height: 100%;
 }
 </style>

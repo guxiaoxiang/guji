@@ -33,12 +33,7 @@
             class="pwd"
           />
           <div class="login_btn">
-            <van-button
-              round
-              type="info"
-              native-type="submit"
-              class="login_btn_submit"
-            >
+            <van-button round type="info" native-type="submit" class="login_btn_submit">
               登录
             </van-button>
             <van-button
@@ -87,8 +82,7 @@ export default {
       return /^[a-zA-Z0-9]\w{5,17}$/.test(val)
     },
     resetForm: function() {
-      this.loginForm.username = '',
-      this.loginForm.password = ''
+      ;(this.loginForm.username = ''), (this.loginForm.password = '')
     },
     toRegister: function() {
       this.$router.push('/register')

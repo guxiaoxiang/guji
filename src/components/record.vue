@@ -22,7 +22,12 @@
             </div>
             <div class="record_input_type">
               <van-cell-group>
-                <van-field :placeholder="incomeValue" left-icon="more-o" v-model="incomeForm.type" readonly>
+                <van-field
+                  :placeholder="incomeValue"
+                  left-icon="more-o"
+                  v-model="incomeForm.type"
+                  readonly
+                >
                   <van-button
                     type="default"
                     is-link
@@ -84,7 +89,12 @@
             </div>
             <div class="record_input_type">
               <van-cell-group>
-                <van-field :placeholder="spendValue" left-icon="more-o" v-model="spendForm.type" readonly>
+                <van-field
+                  :placeholder="spendValue"
+                  left-icon="more-o"
+                  v-model="spendForm.type"
+                  readonly
+                >
                   <van-button
                     type="default"
                     is-link
@@ -99,8 +109,12 @@
             </div>
             <div class="record_input_date">
               <van-cell-group>
-                    
-                <van-field :placeholder="spendDate" left-icon="calender-o" v-model="spendForm.date" readonly>
+                <van-field
+                  :placeholder="spendDate"
+                  left-icon="calender-o"
+                  v-model="spendForm.date"
+                  readonly
+                >
                   <van-button
                     type="default"
                     is-link
@@ -278,7 +292,7 @@ export default {
           }
         })
       }
-    }
+    },
   },
 }
 </script>

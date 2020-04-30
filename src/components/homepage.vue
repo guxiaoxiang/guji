@@ -58,9 +58,9 @@ export default {
       })
       this.$store.commit('clearUser')
       var that = this
-      setTimeout(function(){
+      setTimeout(function() {
         that.$router.push('/login')
-      },2000)
+      }, 2000)
     },
   },
 }

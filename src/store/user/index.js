@@ -22,7 +22,7 @@ const mutations = {
   clearUser(state) {
     state.user = {}
     Vue.ls.remove('user')
-  }
+  },
 }
 
 export default {
