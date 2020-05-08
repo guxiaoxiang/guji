@@ -20,6 +20,9 @@ import {
   Tag,
   Empty,
   SwipeCell,
+  NavBar,
+  Sticky,
+  Dialog,
 } from 'vant'
 
 Vue.use(CellGroup)
@@ -42,3 +45,6 @@ Vue.use(Card)
 Vue.use(Tag)
 Vue.use(Empty)
 Vue.use(SwipeCell)
+Vue.use(NavBar)
+Vue.use(Sticky)
+Vue.use(Dialog)

@@ -1,32 +1,32 @@
 <template>
-  <div class="container">
+  <div class="deletePage">
     <!-- 吸顶返回按钮 -->
     <div class="stickyNavbar">
       <van-sticky>
         <van-nav-bar
-          title="记账"
+          title="回收站"
           left-text="返回"
-          right-text="回收站"
+          right-text="清空"
           left-arrow
           @click-left="onClickLeft"
           @click-right="onClickRight"
         />
       </van-sticky>
     </div>
-    <!-- logo -->
-    <div class="view_logo">
-      <img src="../assets/logo.png" />
-    </div>
-    <!-- 账单列表 -->
     <div class="view_list">
-      <!-- 日期选择区域 -->
-      <div class="view_list_select">
-        <van-cell title="选择日期区间" :value="date" @click="showPopup" />
-      </div>
       <!-- 账单展示区域 -->
       <div v-if="this.billList.length != 0">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <van-swipe-cell v-for="(item, index) in billList" :key="index">
+            <template #left>
+              <van-button
+                square
+                type="primary"
+                text="恢复"
+                class="restore_button"
+                @click="restoreBill(item.recordId)"
+              />
+            </template>
             <van-card :price="item.money" :desc="item.note" :title="item.type">
               <template #thumb>
                 <img
@@ -60,62 +60,40 @@
         </van-list>
       </div>
       <div v-else>
-        <van-empty image="search" description="这段时间无消费记录哦。。。" />
+        <van-empty image="search" description="回收站很干净哦。。。" />
       </div>
-    </div>
-    <!-- 日历控件 -->
-    <div class="picker">
-      <van-calendar
-        v-model="show"
-        @confirm="onConfirm"
-        type="range"
-        :min-date="minDate"
-        :max-date="maxDate"
-        allow-same-day
-      />
     </div>
   </div>
 </template>
 
 <script>
-import { Delete } from '../api/user'
-import { View } from '../api/user'
+import { ClearBill } from '../api/user'
+import { RestoreBill } from '../api/user'
+import { DeleteBill } from '../api/user'
+import { ViewDelete } from '../api/user'
 import { Notify } from 'vant'
 import { Dialog } from 'vant'
+
 export default {
-  data: function() {
+  mounted: function() {
+    this.loadingHandler()
+  },
+  data() {
     return {
-      value1: 0,
-      option1: [
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-      ],
-      minDate: new Date(2010, 0, 1),
-      maxDate: new Date(2030, 0, 31),
-      show: false,
-      date: '',
-      billList: [],
       list: [],
+      billList: [],
       finished: false,
       loading: false,
-      query: {},
     }
   },
-  computed: {
-    selectTag() {
-      return this.type == 'income' ? 'success' : 'danger'
-    },
-  },
   methods: {
-    deleteBill(id) {
-      // console.log(id)
+    restoreBill(id) {
       Dialog.confirm({
-        message: '确定删除这张账单吗？',
+        message: '确定恢复这张账单吗？',
       })
         .then(() => {
           // on confirm
-          Delete({ id }).then(res => {
+          RestoreBill({ id }).then(res => {
             if (res.code == 200) {
               Notify({ type: 'success', message: res.message, duration: 1000 })
               this.loadViews()
@@ -125,12 +103,6 @@ export default {
         .catch(() => {
           // on cancel
         })
-    },
-    onClickRight() {
-      this.$router.push('/homepage/view/deleteBill')
-    },
-    onClickLeft() {
-      this.$router.push('/homepage')
     },
     onLoad() {
       // 异步更新数据
@@ -147,57 +119,54 @@ export default {
         }
       }, 1000)
     },
-    showPopup() {
-      this.show = true
-    },
-    formatDate(date) {
-      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-    },
     loadViews() {
-      View(this.query).then(res => {
+      ViewDelete().then(res => {
         if (res.code == 200) {
           this.billList = res.data
         }
       })
     },
-    onConfirm(date) {
-      const [start, end] = date
-      this.show = false
-      this.date = `${this.formatDate(start)} - ${this.formatDate(end)}`
-
-      // console.log(this.formatDate(start))
-      // console.log(this.$store.getters.user.email)
-
-      this.query.startTime = this.formatDate(start)
-      this.query.endTime = this.formatDate(end)
-      this.query.email = this.$store.getters.user.email
-
+    deleteBill(id) {
+      // console.log(id)
+      Dialog.confirm({
+        message: '确定删除这张订单吗？',
+      })
+        .then(() => {
+          // on confirm
+          DeleteBill({ id }).then(res => {
+            if (res.code == 200) {
+              Notify({ type: 'warning', message: res.message, duration: 1000 })
+              this.loadViews()
+            }
+          })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
+    loadingHandler() {
       this.loadViews()
+    },
+    onClickLeft() {
+      this.$router.push('/homepage/view')
+    },
+    onClickRight() {
+      console.log('empty')
+      ClearBill().then(res => {
+        if (res.code == 200) {
+          console.log('删除成功')
+          this.loadViews()
+        }
+      })
     },
   },
 }
 </script>
 
 <style scoped>
-.view_logo {
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 130px;
-}
-.view_logo img {
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-}
-.view_logo img:hover {
-  transform: scale(1.1);
-}
 .view_list {
   position: absolute;
-  top: 170px;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -205,6 +174,9 @@ export default {
   text-align: left;
 }
 .delete-button {
+  height: 100%;
+}
+.restore_button {
   height: 100%;
 }
 </style>

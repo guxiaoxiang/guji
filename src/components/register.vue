@@ -12,41 +12,50 @@
           <van-field
             required
             placeholder="   请输入用户名"
-            left-icon="https://b.yzcdn.cn/vant/icon-demo-1126.png"
             name="username"
             v-model="registerForm.username"
-          />
+          >
+            <template #left-icon>
+              <van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" size="20px"/>
+            </template>
+          </van-field>
         </van-cell-group>
       </div>
       <div class="register_input_email">
         <van-cell-group>
-          <van-field 
-          required
-          placeholder="   请输入邮箱" 
-          left-icon="envelop-o" 
-          type="email" 
-          name="email" 
-          v-model="registerForm.email"
-          />
+          <van-field
+            required
+            placeholder="   请输入邮箱"
+            type="email"
+            name="email"
+            v-model="registerForm.email"
+          >
+            <template #left-icon>
+              <van-icon name="envelop-o" size="20px"/>
+            </template>
+          </van-field>
         </van-cell-group>
       </div>
       <div class="register_input_pwd">
         <van-cell-group>
-          <van-field 
-          required
-          placeholder="   请输入密码" 
-          left-icon="bag-o" 
-          type="password" 
-          name="password"
-          v-model="registerForm.password"
-          />
+          <van-field
+            required
+            placeholder="   请输入密码"
+            type="password"
+            name="password"
+            v-model="registerForm.password"
+          >
+            <template #left-icon>
+              <van-icon name="bag-o" size="20px"/>
+            </template>
+          </van-field>
         </van-cell-group>
       </div>
       <div class="register_btn">
-        <van-button type="info" round class="register_btn_submit" @click="register">注册</van-button>
-        <van-button type="danger" round class="register_btn_cancel" @click="back"
-          >取消</van-button
+        <van-button type="warning" round class="register_btn_submit" @click="register"
+          >注册</van-button
         >
+        <van-button type="danger" round class="register_btn_cancel" @click="back">取消</van-button>
       </div>
     </div>
   </div>
@@ -57,20 +66,20 @@ import { Register } from '../api/user.js'
 import { Toast } from 'vant'
 import { Notify } from 'vant'
 export default {
-  data(){
+  data() {
     return {
-      registerForm:{
-        username:'',
-        email:'',
-        password:''
-      }
+      registerForm: {
+        username: '',
+        email: '',
+        password: '',
+      },
     }
   },
   methods: {
     back: function() {
       this.$router.go(-1)
     },
-    register(){
+    register() {
       var obj = {}
       obj.username = this.registerForm.username
       obj.email = this.registerForm.email
@@ -78,21 +87,21 @@ export default {
       console.log(obj)
 
       Register(obj)
-      .then(res=>{
-        if(res.code == 200){
-          Toast.success(res.message)
-          var that = this
-          setTimeout(function(){
-            that.$router.go(-1)
-          },2000)
-        }else{
-          Notify({ type: 'warning', message: res.message })
-        }
-      })
-      .catch(e=>{
-        console.log(e)
-      })
-    }
+        .then(res => {
+          if (res.code == 200) {
+            Toast.success(res.message)
+            var that = this
+            setTimeout(function() {
+              that.$router.go(-1)
+            }, 2000)
+          } else {
+            Notify({ type: 'warning', message: res.message })
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
   },
 }
 </script>

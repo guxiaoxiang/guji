@@ -22,7 +22,11 @@
             placeholder="用户名"
             :rules="ruleForm.username"
             class="uname"
-          />
+          >
+            <template #right-icon>
+              <van-icon name="close" @click="resetUsername" size="20px"/>
+            </template>
+          </van-field>
           <van-field
             v-model="loginForm.password"
             type="password"
@@ -31,30 +35,26 @@
             placeholder="密码"
             :rules="ruleForm.password"
             class="pwd"
-          />
+          >
+            <template #right-icon>
+              <van-icon name="close" @click="resetPassword" size="20px"/>
+            </template>
+          </van-field>
           <div class="login_btn">
-            <van-button
-              round
-              type="info"
-              native-type="submit"
-              class="login_btn_submit"
-            >
+            <van-button round type="info" native-type="submit" class="login_btn_submit">
               登录
             </van-button>
             <van-button
-              type="danger"
+              type="warning"
               round
-              class="login_btn_cancel"
+              class="register_btn"
               clearable="true"
-              @click="resetForm"
-              >重置</van-button
+              @click="toRegister"
+              >注册</van-button
             >
           </div>
         </van-form>
       </div>
-    </div>
-    <div class="register_btn">
-      <span @click="toRegister">立即注册</span>
     </div>
   </div>
 </template>
@@ -78,6 +78,12 @@ export default {
     }
   },
   methods: {
+    resetUsername(){
+      this.loginForm.username = ''
+    },
+    resetPassword(){
+      this.loginForm.password = ''
+    },
     validator_uname: function(val) {
       //字母开头，允许3-16字节，允许字母数字下划线
       return /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/.test(val)
@@ -85,10 +91,6 @@ export default {
     validator_pwd: function(val) {
       //以字母开头，长度在6~18之间，只能包含字母、数字和下划线
       return /^[a-zA-Z0-9]\w{5,17}$/.test(val)
-    },
-    resetForm: function() {
-      this.loginForm.username = '',
-      this.loginForm.password = ''
     },
     toRegister: function() {
       this.$router.push('/register')
@@ -106,24 +108,19 @@ export default {
       var obj = {}
       obj.username = this.loginForm.username
       obj.password = this.loginForm.password
-      console.log(obj)
 
-      Login(obj)
-        .then(res => {
-          if (res.code == 200) {
-            // console.log(res.data)
-            Toast.success(res.message)
-            this.$store.commit('setUser', res.data)
-            console.log(res.data)
-            console.log(this.$store.getters.user.email)
-            this.$router.push('/homepage')
-          } else {
-            Notify({ type: 'warning', message: res.message })
-          }
-        })
-        .catch(e => {
-          console.log(e)
-        })
+      Login(obj).then(res => {
+        if (res.code == 200) {
+          // console.log(res.data)
+          Toast.success(res.message)
+          this.$store.commit('setUser', res.data)
+          this.$router.push('/homepage')
+        } else if(res.code == 400){
+          Notify({ type: 'warning', message: res.message })
+        }else{
+          Notify({ type: 'warning', message: res.message })
+        }
+      })
     },
   },
 }
@@ -187,7 +184,7 @@ export default {
 .login_btn_submit {
   margin: 0 20px;
 }
-.login_btn_cancel {
+.register_btn {
   margin: 0 20px;
 }
 .login_btn {
@@ -198,11 +195,5 @@ export default {
   width: 400px;
   height: 50px;
 }
-.register_btn {
-  position: absolute;
-  top: 400px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-}
+
 </style>

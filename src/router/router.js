@@ -6,6 +6,7 @@ import homepage from '../components/homepage'
 import record from '../components/record'
 import test from '../components/test'
 import view from '../components/view'
+import deleteBill from '../components/deleteBill'
 import { Notify } from 'vant'
 
 Vue.use(VueRouter)
@@ -41,6 +42,10 @@ const routes = [
     path: '/homepage/view',
     component: view,
   },
+  {
+    path: '/homepage/view/deleteBill',
+    component: deleteBill,
+  },
 ]
 
 const router = new VueRouter({
@@ -56,8 +61,7 @@ router.beforeEach((to, from, next) => {
   if (currentUser || to.path == '/register') {
     next()
   } else {
-    Notify({ type: 'warning', message: '请先登录' }),
-    next({ path: '/login' })
+    Notify({ type: 'warning', message: '请先登录' }), next({ path: '/login' })
   }
 })
 

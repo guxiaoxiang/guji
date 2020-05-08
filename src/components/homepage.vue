@@ -1,8 +1,14 @@
 <template>
   <div class="homepage_container">
+    <!-- logo -->
     <div class="homepage_logo">
       <img src="../assets/logo.png" />
     </div>
+    <!-- title -->
+    <div class="record_input_title">
+      <span>Hello,{{ this.$store.getters.user.username }}</span>
+    </div>
+    <!-- item -->
     <div class="homepage_item">
       <van-cell title="记账" size="large" is-link to="/homepage/record">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
@@ -23,6 +29,7 @@
         </template>
       </van-cell>
     </div>
+    <!-- back -->
     <div class="homepage_back">
       <van-button
         color="linear-gradient(to right, #4bb0ff, #6149f6)"
@@ -46,9 +53,9 @@ export default {
   // }
   mounted() {
     setTimeout(() => {
+      Notify({ type: 'success', message: '欢迎' + this.$store.getters.user.username ,duration:1000})
       // Toast.success('欢迎' + this.$store.getters.user.username)
-      Notify({ type: 'success', message: '欢迎' + this.$store.getters.user.username })
-    }, 1000)
+    }, 500)
   },
   methods: {
     loginout() {
@@ -58,9 +65,9 @@ export default {
       })
       this.$store.commit('clearUser')
       var that = this
-      setTimeout(function(){
+      setTimeout(function() {
         that.$router.push('/login')
-      },2000)
+      }, 2000)
     },
   },
 }
@@ -105,5 +112,12 @@ export default {
   top: 400px;
   left: 50%;
   transform: translateX(-50%);
+}
+.record_input_title {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
 }
 </style>

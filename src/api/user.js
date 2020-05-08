@@ -32,3 +32,41 @@ export function View(data) {
     data,
   })
 }
+
+export function Delete(data) {
+  return axios({
+    url: config.address + '/homepage/view',
+    method: 'delete',
+    data,
+  })
+}
+
+export function ViewDelete() {
+  return axios({
+    url: config.address + '/homepage/view/deleteBill',
+    method: 'get',
+  })
+}
+
+export function DeleteBill(data) {
+  return axios({
+    url: config.address + '/homepage/view/deleteBill/delete',
+    method: 'delete',
+    data,
+  })
+}
+
+export function RestoreBill(data) {
+  return axios({
+    url: config.address + '/homepage/view/deleteBill/restore',
+    method: 'post',
+    data,
+  })
+}
+
+export function ClearBill() {
+  return axios({
+    url: config.address + '/homepage/view/deleteBill/clear',
+    method: 'get',
+  })
+}
