@@ -7,6 +7,7 @@ import record from '../components/record'
 import test from '../components/test'
 import view from '../components/view'
 import deleteBill from '../components/deleteBill'
+import analysicBill from '../components/analysicBill'
 import { Notify } from 'vant'
 
 Vue.use(VueRouter)
@@ -45,6 +46,10 @@ const routes = [
   {
     path: '/homepage/view/deleteBill',
     component: deleteBill,
+  },
+  {
+    path: '/homepage/analysicBill',
+    component: analysicBill,
   },
 ]
 

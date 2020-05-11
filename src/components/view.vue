@@ -29,10 +29,7 @@
           <van-swipe-cell v-for="(item, index) in billList" :key="index">
             <van-card :price="item.money" :desc="item.note" :title="item.type">
               <template #thumb>
-                <img
-                  src="../assets/bill_icon/entertainment.png"
-                  style="width:90%;margin-top:10px"
-                />
+                <img :src="item.img" style="width:90%;margin-top:10px" />
               </template>
               <template #tags>
                 <van-tag round :type="item.state == 'income' ? 'success' : 'danger'">
@@ -85,12 +82,6 @@ import { Dialog } from 'vant'
 export default {
   data: function() {
     return {
-      value1: 0,
-      option1: [
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-      ],
       minDate: new Date(2010, 0, 1),
       maxDate: new Date(2030, 0, 31),
       show: false,
@@ -152,7 +143,7 @@ export default {
     },
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-    },
+    }, 
     loadViews() {
       View(this.query).then(res => {
         if (res.code == 200) {

@@ -22,7 +22,7 @@
           <van-icon name="bill-o" size="25px" />
         </template>
       </van-cell>
-      <van-cell title="收支分析" size="large" is-link to="/homepage/record">
+      <van-cell title="收支分析" size="large" is-link to="/homepage/analysicBill">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
         <template #icon>
           <van-icon name="chart-trending-o" size="25px" />

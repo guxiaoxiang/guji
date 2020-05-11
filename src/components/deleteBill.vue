@@ -29,10 +29,7 @@
             </template>
             <van-card :price="item.money" :desc="item.note" :title="item.type">
               <template #thumb>
-                <img
-                  src="../assets/bill_icon/entertainment.png"
-                  style="width:90%;margin-top:10px"
-                />
+                <img :src="item.img" style="width:90%;margin-top:10px" />
               </template>
               <template #tags>
                 <van-tag round :type="item.state == 'income' ? 'success' : 'danger'">
@@ -76,7 +73,7 @@ import { Dialog } from 'vant'
 
 export default {
   mounted: function() {
-    this.loadingHandler()
+    this.loadViews()
   },
   data() {
     return {
@@ -144,20 +141,25 @@ export default {
           // on cancel
         })
     },
-    loadingHandler() {
-      this.loadViews()
-    },
     onClickLeft() {
       this.$router.push('/homepage/view')
     },
     onClickRight() {
-      console.log('empty')
-      ClearBill().then(res => {
-        if (res.code == 200) {
-          console.log('删除成功')
-          this.loadViews()
-        }
+      Dialog.confirm({
+        message: '确定清空回收站吗？',
       })
+        .then(() => {
+          // on confirm
+          ClearBill().then(res => {
+            if (res.code == 200) {
+              console.log('删除成功')
+              this.loadViews()
+            }
+          })
+        })
+        .catch(() => {
+          // on cancel
+        })
     },
   },
 }

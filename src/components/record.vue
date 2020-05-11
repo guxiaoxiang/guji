@@ -175,7 +175,12 @@
     <!-- 日期选择 -->
     <div class="popup">
       <van-popup v-model="show" @close="onClose" :position="position" :style="style">
-        <van-calendar v-model="show" @confirm="onConfirmDate" :min-date="minDate" :max-date="maxDate" />
+        <van-calendar
+          v-model="show"
+          @confirm="onConfirmDate"
+          :min-date="minDate"
+          :max-date="maxDate"
+        />
       </van-popup>
     </div>
     <!-- 消费类别选择 -->
@@ -278,7 +283,7 @@ export default {
     },
   },
   methods: {
-    moneyHandler(){
+    moneyHandler() {
       this.keybroadShow = false
     },
     resetForm() {
@@ -294,14 +299,14 @@ export default {
         this.spendForm.note = ''
       }
     },
-    onChange(index, title) {
+    onChange(name,title) {
       // console.log(title)
       if (title == '支出') {
-        title = 'spend'
+        this.state = 'spend'
       } else {
-        title = 'income'
+        this.state = 'income'
       }
-      this.state = title
+      console.log(this.state)
     },
     back: function() {
       this.$router.push('/homepage')
@@ -353,6 +358,23 @@ export default {
         obj.date = this.incomeForm.date
         obj.note = this.incomeForm.note
         obj.email = this.$store.getters.user.email
+        switch (this.incomeForm.type) {
+          case '工资':
+            obj.img = require('@/assets/bill_icon/wage.png')
+            break
+          case '奖金':
+            obj.img = require('@/assets/bill_icon/bonus.png')
+            break
+          case '津贴':
+            obj.img = require('@/assets/bill_icon/allowance.png')
+            break
+          case '投资收益':
+            obj.img = require('@/assets/bill_icon/profit.png')
+            break
+          case '其他':
+            obj.img = require('@/assets/bill_icon/other.png')
+            break
+        }
         Record(obj).then(res => {
           if (res.code == 200) {
             Toast.success(res.message)
@@ -370,6 +392,26 @@ export default {
         obj1.date = this.spendForm.date
         obj1.note = this.spendForm.note
         obj1.email = this.$store.getters.user.email
+        switch (this.spendForm.type) {
+          case '交通':
+            obj1.img = require('@/assets/bill_icon/traffic.png')
+            break
+          case '医疗':
+            obj1.img = require('@/assets/bill_icon/medical.png')
+            break
+          case '日常':
+            obj1.img = require('@/assets/bill_icon/daily.png')
+            break
+          case '服饰':
+            obj1.img = require('@/assets/bill_icon/clothes.png')
+            break
+          case '娱乐':
+            obj1.img = require('@/assets/bill_icon/entertainment.png')
+            break
+          case '其他':
+            obj1.img = require('@/assets/bill_icon/other.png')
+            break
+        }
         Record(obj1).then(res => {
           if (res.code == 200) {
             Toast.success(res.message)

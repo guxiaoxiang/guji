@@ -70,3 +70,12 @@ export function ClearBill() {
     method: 'get',
   })
 }
+
+export function analysicBill(data) {
+  return axios({
+    url: config.address + '/homepage/analysicBill',
+    method: 'post',
+    data,
+  })
+}
+
