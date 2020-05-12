@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     drawLine() {
+      // this.state='income'
       if (this.state == 'income') {
         var pieIncome = document.getElementById('echarts_pie_income')
         if (!pieIncome) {
@@ -63,6 +64,9 @@ export default {
         }
         var chartIncome = echarts.init(pieIncome)
         var optionIncome = {
+          title: {
+            text: '收入统计',
+          },
           tooltip: {
             trigger: 'item',
             formatter: '{b} : {c} ({d}%)',
@@ -88,6 +92,9 @@ export default {
         }
         var chartSpend = echarts.init(pieSpend)
         var optionSpend = {
+          title: {
+            text: '支出统计',
+          },
           tooltip: {
             trigger: 'item',
             formatter: '{b} : {c} ({d}%)',
@@ -113,12 +120,14 @@ export default {
         if (res.code == 200) {
           this.demo = res.data
           // console.log(this.demo)
+          // this.state = 'income'
           this.drawLine()
         }
       })
     },
     onConfirm(date) {
       this.visible = true
+      // this.state = 'income'
       const [start, end] = date
       this.show = false
       this.date = `${this.formatDate(start)} - ${this.formatDate(end)}`
@@ -148,7 +157,7 @@ export default {
         this.state = 'income'
         this.query.state = this.state
       }
-      console.log(this.state)
+      // console.log(this.state)
       this.loadViews()
     },
   },

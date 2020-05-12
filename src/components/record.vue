@@ -318,7 +318,7 @@ export default {
       this.show = false
     },
     formatDate(date) {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     },
     onConfirmDate(date) {
       if (this.state == 'income') {
