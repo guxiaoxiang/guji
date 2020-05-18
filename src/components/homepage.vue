@@ -1,13 +1,7 @@
 <template>
   <div class="homepage_container">
     <!-- logo -->
-    <div class="homepage_logo">
-      <img src="../assets/logo.png" />
-    </div>
-    <!-- title -->
-    <div class="record_input_title">
-      <span>Hello,{{ this.$store.getters.user.username }}</span>
-    </div>
+    <logo class="logo"></logo>
     <!-- item -->
     <div class="homepage_item">
       <van-cell title="记账" size="large" is-link to="/homepage/record">
@@ -43,6 +37,7 @@
 </template>
 
 <script>
+import logo from './logo'
 import { Notify } from 'vant'
 import { Toast } from 'vant'
 export default {
@@ -56,6 +51,9 @@ export default {
       Notify({ type: 'success', message: '欢迎' + this.$store.getters.user.username ,duration:1000})
       // Toast.success('欢迎' + this.$store.getters.user.username)
     }, 500)
+  },
+  components:{
+    logo
   },
   methods: {
     loginout() {
@@ -74,21 +72,10 @@ export default {
 </script>
 
 <style scoped>
-.homepage_logo {
+.logo {
   position: absolute;
-  top: 20px;
+  top: 25px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 130px;
-}
-.homepage_logo img {
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-}
-.homepage_logo img:hover {
-  transform: scale(1.1);
 }
 .homepage_item {
   position: absolute;

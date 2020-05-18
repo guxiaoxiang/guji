@@ -6,7 +6,6 @@ import VueStorage from 'vue-ls'
 import config from '@/config/config'
 import store from './store'
 import './assets/css/gobal.css'
-import './assets/css/resetUI.css'
 import './plugins/vant.js'
 
 Vue.config.productionTip = false

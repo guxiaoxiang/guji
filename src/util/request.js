@@ -4,6 +4,7 @@ import { Toast } from 'vant'
 // 创建 axios 实例
 const service = axios.create({
   timeout: 6000, // 请求超时时间
+  headers: {'Content-Type': 'application/json; charset=utf-8'}
 })
 
 const err = () => {

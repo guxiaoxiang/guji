@@ -23,6 +23,9 @@ import {
   NavBar,
   Sticky,
   Dialog,
+  Tabbar,
+  TabbarItem,
+  Skeleton,
 } from 'vant'
 
 Vue.use(CellGroup)
@@ -48,3 +51,6 @@ Vue.use(SwipeCell)
 Vue.use(NavBar)
 Vue.use(Sticky)
 Vue.use(Dialog)
+Vue.use(Tabbar)
+Vue.use(TabbarItem)
+Vue.use(Skeleton)

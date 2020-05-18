@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../components/login'
-import register from '../components/register'
+import login from '../views/login'
+import register from '../views/register'
 import homepage from '../components/homepage'
-import record from '../components/record'
-import test from '../components/test'
-import view from '../components/view'
-import deleteBill from '../components/deleteBill'
-import analysicBill from '../components/analysicBill'
+import record from '../views/main/record'
+import userInfo from '../views/userInfo'
+import bar from '../views/main/bar'
+import view from '../views/main/view'
+import my from '../views/main/my'
+import deleteBill from '../views/deleteBill'
+import analysicBill from '../views/main/analysicBill'
 import { Notify } from 'vant'
 
 Vue.use(VueRouter)
@@ -16,16 +18,31 @@ const whiteList = ['/login', '/register']
 
 const routes = [
   {
-    path: '/test',
-    component: test,
+    path: '/bar',
+    component: bar,
+    children: [
+      { path: '/bar/record', component: record },
+      { path: '/bar/view', component: view },
+      { path: '/bar/analysicBill', component: analysicBill },
+      { path: '/bar/my', component: my },
+    ],
   },
   {
     path: '/login',
     component: login,
   },
+  { path: '/bar/view/deleteBill', component: deleteBill },
+  {
+    path: '/bar/my/userInfo',
+    component: userInfo,
+  },
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/bar/my',
+  },
+  {
+    path: '/',
+    componentmy: my,
   },
   {
     path: '/register',
@@ -34,22 +51,6 @@ const routes = [
   {
     path: '/homepage',
     component: homepage,
-  },
-  {
-    path: '/homepage/record',
-    component: record,
-  },
-  {
-    path: '/homepage/view',
-    component: view,
-  },
-  {
-    path: '/homepage/view/deleteBill',
-    component: deleteBill,
-  },
-  {
-    path: '/homepage/analysicBill',
-    component: analysicBill,
   },
 ]
 
@@ -63,10 +64,10 @@ router.beforeEach((to, from, next) => {
   }
   let currentUser = Vue.ls.get('user')
 
-  if (currentUser || to.path == '/register') {
+  if (currentUser || to.path == '/register' || to.path == '/bar/my' || to.path == '/login') {
     next()
   } else {
-    Notify({ type: 'warning', message: '请先登录' }), next({ path: '/login' })
+    Notify({ type: 'warning', message: '请先登录' }), next({ path: '/bar/my' })
   }
 })
 
