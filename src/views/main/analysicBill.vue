@@ -3,7 +3,7 @@
     <!-- 吸顶返回按钮 -->
     <div class="stickyNavbar">
       <van-sticky>
-        <van-nav-bar title="收支分析" left-text="返回" left-arrow @click-left="onClickLeft" />
+        <van-nav-bar title="收支分析"/>
       </van-sticky>
     </div>
     <!-- 日期选择区域 -->
@@ -146,9 +146,6 @@ export default {
     },
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-    },
-    onClickLeft() {
-      this.$router.push('/homepage')
     },
     onChange(name, title) {
       // console.log(title)

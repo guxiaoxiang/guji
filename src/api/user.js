@@ -86,3 +86,11 @@ export function modifyInfo(data) {
     data,
   })
 }
+
+export function modifyPassword(data) {
+  return axios({
+    url: config.address + '/bar/my/modifyPassword',
+    method: 'post',
+    data,
+  })
+}

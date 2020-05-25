@@ -5,6 +5,7 @@ import register from '../views/register'
 import homepage from '../components/homepage'
 import record from '../views/main/record'
 import userInfo from '../views/userInfo'
+import modifyPassword from '../views/modifyPassword'
 import bar from '../views/main/bar'
 import view from '../views/main/view'
 import my from '../views/main/my'
@@ -35,6 +36,10 @@ const routes = [
   {
     path: '/bar/my/userInfo',
     component: userInfo,
+  },
+  {
+    path: '/bar/my/modifyPassword',
+    component: modifyPassword,
   },
   {
     path: '/',

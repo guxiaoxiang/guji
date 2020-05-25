@@ -22,13 +22,13 @@
       <van-cell title="用户信息" icon="shop-o" @click="checkInfo"> </van-cell>
     </div>
     <div class="modify">
-      <van-cell title="修改密码" icon="shop-o"> </van-cell>
+      <van-cell title="修改密码" icon="shop-o" @click="modifyPwd"> </van-cell>
     </div>
   </div>
 </template>
 
 <script>
-import { Toast } from 'vant'
+import { Dialog } from 'vant'
 
 export default {
   data() {
@@ -43,11 +43,14 @@ export default {
         ? '点击登录'
         : this.$store.getters.user.username
     },
-    isExit(){
+    isExit() {
       return this.$store.getters.user.username
-    }
+    },
   },
   methods: {
+    modifyPwd() {
+      this.$router.push('/bar/my/modifyPassword')
+    },
     checkInfo() {
       this.$router.push('/bar/my/userInfo')
     },
@@ -55,21 +58,26 @@ export default {
       this.$router.push('/login')
     },
     onClickRight() {
-      Toast.loading({
-        message: '加载中...',
-        forbidClick: true,
+      Dialog.confirm({
+        message: '确定退出登录吗？',
       })
-      var that = this
-      setTimeout(function() {
-        that.$store.commit('clearUser')
-      }, 2000)
+        .then(() => {
+          // on confirm
+          var that = this
+          setTimeout(function() {
+            that.$store.commit('clearUser')
+          }, 2000)
+        })
+        .catch(() => {
+          // on cancel
+        })
     },
   },
 }
 </script>
 
 <style scoped>
-.exit{
+.exit {
   text-decoration: none;
   color: cadetblue;
 }
